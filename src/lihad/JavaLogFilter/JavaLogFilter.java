@@ -40,14 +40,12 @@ public class JavaLogFilter extends JavaPlugin implements Filter {
 	public boolean isLoggable(LogRecord record) {
 		if (record.getMessage() != null) {
 			String message = record.getMessage();
-			boolean b = true;
 			for (int i = 0; i < toFilter.size(); i++) {
 				String filtera = toFilter.get(i).toLowerCase();
 				if (record.getLevel().getName().toLowerCase().equals(filtera) || message.toLowerCase().contains(filtera)){
-					b = false;
+					return false;
 				}
 			}
-			return b;
 		}
 		return true;
 	}
@@ -73,8 +71,5 @@ public class JavaLogFilter extends JavaPlugin implements Filter {
 	}
 	private static void warning(String message){
 		log.warning(header + ChatColor.YELLOW + message);
-	}
-	private static void log(java.util.logging.Level level, String message){
-		log.log(level, header + message);
 	}
 }
