@@ -1,3 +1,7 @@
 name: JavaLogFilter
 main: lihad.JavaLogFilter.JavaLogFilter
-version: 1.1
+version: 1.2
+commands:
+  filter:
+    description: Unable to access
+    usage: Unable to access
