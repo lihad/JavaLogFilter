@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,8 +52,7 @@ public class JavaLogFilter extends JavaPlugin implements Filter {
 		return true;
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		Player player = (Player)sender;
-		if(cmd.getName().equalsIgnoreCase("filter") && player.isOp()){
+		if(cmd.getName().equalsIgnoreCase("filter") && ((sender instanceof Player && ((Player)sender).isOp()) || sender instanceof ConsoleCommandSender)){
 			if(args.length == 1 && args[0].equalsIgnoreCase("reload")){
 				reload();
 			}
