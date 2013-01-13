@@ -19,9 +19,9 @@ public class JavaLogFilter extends JavaPlugin implements Filter {
 	@Override
 	public void onLoad() {
 		log = this.getLogger();
-		Enumeration<String> cc =LogManager.getLogManager().getLoggerNames(); 
-		while(cc.hasMoreElements()) {
-			Logger.getLogger(cc.nextElement()).setFilter(this); 
+		Enumeration<String> strings =LogManager.getLogManager().getLoggerNames(); 
+		while(strings.hasMoreElements()) {
+			Logger.getLogger(strings.nextElement()).setFilter(this); 
 		}
 	}
 	@Override
@@ -32,17 +32,15 @@ public class JavaLogFilter extends JavaPlugin implements Filter {
 	@Override
 	public boolean isLoggable(LogRecord record) {
 		if (record.getMessage() != null) {
-			String a = record.getMessage();
-			boolean c = false;
+			String message = record.getMessage();
+			boolean b = true;
 			for (int i = 0; i < toFilter.size(); i++) {
 				String filtera = toFilter.get(i).toLowerCase();
-				if (record.getLevel().getName().toLowerCase().equals(filtera)) {
-					c = true;
-				} else if (a.toLowerCase().contains(filtera)) {
-					c = true;
+				if (record.getLevel().getName().toLowerCase().equals(filtera) || message.toLowerCase().contains(filtera)){
+					b = false;
 				}
 			}
-			return !c;
+			return b;
 		}
 		return true;
 	}
