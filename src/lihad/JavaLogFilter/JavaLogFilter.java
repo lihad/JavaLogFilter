@@ -4,6 +4,7 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Filter;
+import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ public class JavaLogFilter extends JavaPlugin implements Filter {
 	protected static String header = "[" + PLUGIN_NAME + "] ";
 	private static List<String> toFilter = new LinkedList<String>();
 	public static FileConfiguration config;
+	private static boolean exception_switch = false;
 
 	@Override
 	public void onLoad() {
@@ -40,13 +42,19 @@ public class JavaLogFilter extends JavaPlugin implements Filter {
 	public boolean isLoggable(LogRecord record) {
 		if (record.getMessage() != null) {
 			String message = record.getMessage();
+			if(exception_switch = true && record.getLevel().equals(Level.SEVERE)){
+				return false;
+			}
 			for (int i = 0; i < toFilter.size(); i++) {
 				String filtera = toFilter.get(i).toLowerCase();
 				if (record.getLevel().getName().toLowerCase().equals(filtera) || message.toLowerCase().contains(filtera)){
+					if(record.getLevel().equals(Level.SEVERE))exception_switch = true;
 					return false;
+					
 				}
 			}
 		}
+		exception_switch = false;
 		return true;
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
